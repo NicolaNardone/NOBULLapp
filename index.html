@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NOBULL APP 2.0 - App contro bullismo e cyberbullismo">
+    <meta name="theme-color" content="#2196F3">
+    <title>NOBULL APP 2.0</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #2196F3;
+        }
+
+        .menu-item .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .menu-item .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #757575;
+        }
+
+        .btn-secondary:hover {
+            background: #616161;
+        }
+
+        .btn-danger {
+            background: #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+        }
+
+        .btn-success:hover {
+            background: #388E3C;
+        }
+
+        .scenario-card {
+            background: #f5f5f5;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .scenario-card h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .scenario-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .question {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: normal;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .alert {
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .alert-low {
+            background: #C8E6C9;
+            color: #2E7D32;
+            border: 3px solid #4CAF50;
+        }
+
+        .alert-medium {
+            background: #FFE082;
+            color: #F57F17;
+            border: 3px solid #FFC107;
+        }
+
+        .alert-high {
+            background: #FFCCBC;
+            color: #BF360C;
+            border: 3px solid #FF5722;
+        }
+
+        .alert-critical {
+            background: #FFCDD2;
+            color: #B71C1C;
+            border: 3px solid #f44336;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .suggestions {
+            background: #E3F2FD;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .suggestions h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .suggestions ul {
+            padding-left: 20px;
+        }
+
+        .suggestions li {
+            margin-bottom: 8px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .sos-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .sos-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sos-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #f44336;
+        }
+
+        .sos-btn .icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .sos-btn .text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .sos-btn .text h3 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .sos-btn .text p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .info-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .consuetudine {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .consuetudine h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .consuetudine .risposta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .consuetudine .risposta.corretta {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .consuetudine .risposta.sbagliata {
+            background: #FFCDD2;
+            color: #B71C1C;
+        }
+
+        .testimonianza {
+            background: #E3F2FD;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .testimonianza .autore {
+            font-weight: 600;
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .testimonianza .testo {
+            color: #333;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .back-button:hover {
+            opacity: 1;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .nav-item.active .icon,
+        .nav-item.active .label {
+            color: #2196F3;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3, #1976D2);
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                box-shadow: none;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+        }
+
+        /* STILI QUESTIONARIO STEP-BY-STEP */
+        .quest-step {
+            display: none;
+            animation: questSlideIn 0.4s ease-out;
+        }
+        
+        .quest-step.active {
+            display: block;
+        }
+        
+        @keyframes questSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .quest-option {
+            position: relative;
+        }
+        
+        .quest-label {
+            display: block;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #2d3748;
+            background: white;
+        }
+        
+        .quest-option input[type="radio"]:checked + .quest-label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+        
+        .quest-label:hover {
+            border-color: #667eea;
+            transform: translateX(4px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HOME SCREEN -->
+        <div id="screen-home" class="screen active">
+            <div class="header">
+                <div class="logo">🛡️</div>
+                <h1>NOBULL APP 2.0</h1>
+                <p class="subtitle">Insieme contro bullismo e cyberbullismo</p>
+            </div>
+
+            <div class="content">
+                <div class="menu-grid">
+                    <div class="menu-item" onclick="showScreen('questionario')">
+                        <div class="icon">📋</div>
+                        <div class="title">Questionario</div>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('autovalutazione')">
+                        <div class="icon">🔍</div>
+                        <div class="title">Valuta la tua situazione</div>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('sos')">
+                        <div class="icon">🆘</div>
+                        <div class="title">Ho bisogno di aiuto</div>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('impara')">
+                        <div class="icon">📚</div>
+                        <div class="title">Impara</div>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('consuetudini')">
+                        <div class="icon">🤔</div>
+                        <div class="title">Consuetudini</div>
+                    </div>
+                    <div class="menu-item" onclick="showScreen('testimonianze')">
+                        <div class="icon">💬</div>
+                        <div class="title">Testimonianze</div>
+                    </div>
+                </div>
+
+                <div class="quote">
+                    "La gentilezza è una forza, non una debolezza. Insieme possiamo fare la differenza."
+                </div>
+            </div>
+        </div>
+
+        <!-- QUESTIONARIO SCREEN -->
+                <div id="screen-questionario" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>📋 Questionario</h1>
+                <p class="subtitle">Aiutaci a conoscerti meglio</p>
+            </div>
+
+            <!-- BARRA PROGRESSO -->
+            <div style="background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="width: 100%; height: 6px; background: #e0e0e0; border-radius: 10px; overflow: hidden;">
+                    <div id="quest-progress-fill" style="height: 100%; width: 0%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.5s ease; border-radius: 10px;"></div>
+                </div>
+            </div>
+
+            <!-- CONTENITORE DOMANDE -->
+            <div id="quest-container" style="padding: 30px 20px;">
+                <!-- DOMANDA 1: Genere -->
+                <div class="quest-step active" data-step="1">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">🙋 Qual è il tuo genere?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-genere-ragazzo" name="q-genere" value="ragazzo" style="position: absolute; opacity: 0;">
+                            <label for="q-genere-ragazzo" class="quest-label">Ragazzo</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-genere-ragazza" name="q-genere" value="ragazza" style="position: absolute; opacity: 0;">
+                            <label for="q-genere-ragazza" class="quest-label">Ragazza</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_1.png" alt="Gruppo ragazzi" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 2: Età -->
+                <div class="quest-step" data-step="2">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">🎂 Quanti anni hai?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-eta-14" name="q-eta" value="<14" style="position: absolute; opacity: 0;">
+                            <label for="q-eta-14" class="quest-label">Inferiore a 14 anni</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-eta-14-16" name="q-eta" value="14-16" style="position: absolute; opacity: 0;">
+                            <label for="q-eta-14-16" class="quest-label">Tra 14 e 16 anni</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-eta-16" name="q-eta" value=">16" style="position: absolute; opacity: 0;">
+                            <label for="q-eta-16" class="quest-label">Maggiore di 16 anni</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_1.png" alt="Gruppo ragazzi" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 3: Quante volte -->
+                <div class="quest-step" data-step="3">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">⏰ Quante volte hai vissuto situazioni difficili?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-volte-prima" name="q-volte" value="prima" style="position: absolute; opacity: 0;">
+                            <label for="q-volte-prima" class="quest-label">Prima volta</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-volte-seconda" name="q-volte" value="seconda" style="position: absolute; opacity: 0;">
+                            <label for="q-volte-seconda" class="quest-label">Seconda volta</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-volte-ripetute" name="q-volte" value="ripetute" style="position: absolute; opacity: 0;">
+                            <label for="q-volte-ripetute" class="quest-label">Ripetuto più volte</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_2.png" alt="Calendario" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 4: Hai assistito -->
+                <div class="quest-step" data-step="4">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">👀 Hai mai assistito al bullismo di qualcuno?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-assistito-si" name="q-assistito" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-assistito-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-assistito-no" name="q-assistito" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-assistito-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_3.png" alt="Supporto" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 5: Reazione -->
+                <div class="quest-step" data-step="5">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">🤔 Qual è stata la tua reazione?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-reazione-spettatore" name="q-reazione" value="spettatore" style="position: absolute; opacity: 0;">
+                            <label for="q-reazione-spettatore" class="quest-label">Sono rimasto spettatore</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-reazione-protagonista" name="q-reazione" value="protagonista" style="position: absolute; opacity: 0;">
+                            <label for="q-reazione-protagonista" class="quest-label">Sono intervenuto attivamente</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_3.png" alt="Supporto" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 6: Difesa vittima -->
+                <div class="quest-step" data-step="6">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">💪 Sei intervenuto a difesa della vittima?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-difesa-si" name="q-difesa" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-difesa-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-difesa-no" name="q-difesa" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-difesa-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_3.png" alt="Aiuto" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 7: Vittima -->
+                <div class="quest-step" data-step="7">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">💔 Sei mai stato/a vittima di bullismo?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-vittima-si" name="q-vittima" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-vittima-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-vittima-no" name="q-vittima" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-vittima-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_4.png" alt="Conforto" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 8: Denunciato -->
+                <div class="quest-step" data-step="8">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">📢 Hai mai denunciato il bullismo?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-denunciato-si" name="q-denunciato" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-denunciato-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-denunciato-no" name="q-denunciato" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-denunciato-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_5.png" alt="Comunicazione" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 9: In che modo -->
+                <div class="quest-step" data-step="9">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">✍️ In che modo hai denunciato?</div>
+                    <textarea id="q-modo-denuncia" style="width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 16px; resize: vertical; min-height: 100px; margin-bottom: 30px;" placeholder="Descrivi brevemente come hai denunciato..."></textarea>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_5.png" alt="Comunicazione" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 10: Anonimo o esperto -->
+                <div class="quest-step" data-step="10">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">🔒 L'hai fatto in modo anonimo o con un esperto?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-tipo-anonimo" name="q-tipo-denuncia" value="anonimo" style="position: absolute; opacity: 0;">
+                            <label for="q-tipo-anonimo" class="quest-label">Anonimo</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-tipo-esperto" name="q-tipo-denuncia" value="esperto" style="position: absolute; opacity: 0;">
+                            <label for="q-tipo-esperto" class="quest-label">Con l'aiuto di un esperto</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_5.png" alt="Sicurezza" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 11: Sai a chi rivolgerti -->
+                <div class="quest-step" data-step="11">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">❓ Sai a chi rivolgerti per segnalare atti di bullismo?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-sai-si" name="q-sai-chi" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-sai-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-sai-no" name="q-sai-chi" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-sai-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_6.png" alt="Rete supporto" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 12: A chi ti rivolgeresti -->
+                <div class="quest-step" data-step="12">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">👥 A chi ti rivolgeresti?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-amico" name="q-a-chi" value="amico" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-amico" class="quest-label">Un amico</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-genitori" name="q-a-chi" value="genitori" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-genitori" class="quest-label">I genitori</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-docente" name="q-a-chi" value="docente" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-docente" class="quest-label">Un docente</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-team" name="q-a-chi" value="team" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-team" class="quest-label">Team antibullismo della scuola</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-forze" name="q-a-chi" value="forze" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-forze" class="quest-label">Forze dell'ordine</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-achi-altro" name="q-a-chi" value="altro" style="position: absolute; opacity: 0;">
+                            <label for="q-achi-altro" class="quest-label">Altro</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_6.png" alt="Chi può aiutare" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- DOMANDA 13: Segnaleresti -->
+                <div class="quest-step" data-step="13">
+                    <div style="font-size: 20px; font-weight: 600; color: #2d3748; margin-bottom: 25px;">✊ Segnaleresti comportamenti bulli se ne fossi testimone?</div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                        <div class="quest-option">
+                            <input type="radio" id="q-segnala-si" name="q-segnala" value="si" style="position: absolute; opacity: 0;">
+                            <label for="q-segnala-si" class="quest-label">Sì</label>
+                        </div>
+                        <div class="quest-option">
+                            <input type="radio" id="q-segnala-no" name="q-segnala" value="no" style="position: absolute; opacity: 0;">
+                            <label for="q-segnala-no" class="quest-label">No</label>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <img src="Prompt_7.png" alt="Uniti" style="max-width: 100%; height: auto; max-height: 250px; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RISULTATO FINALE -->
+            <div id="quest-result" style="display: none; padding: 40px 20px; text-align: center;">
+                <div style="font-size: 80px; margin-bottom: 20px;">✅</div>
+                <div style="font-size: 28px; font-weight: 700; color: #2d3748; margin-bottom: 15px;">Grazie per aver completato il questionario!</div>
+                <div style="font-size: 16px; color: #666; line-height: 1.6; margin-bottom: 30px;">
+                    Le tue risposte ci aiutano a capire meglio come supportarti e rendere la nostra scuola un luogo più sicuro per tutti.
+                </div>
+                <div style="background: #f0f4ff; border-left: 4px solid #667eea; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left;">
+                    <h3 style="color: #667eea; margin-bottom: 10px; font-size: 18px;">🔍 Hai bisogno di aiuto immediato?</h3>
+                    <p style="color: #555; line-height: 1.5;">Se stai vivendo una situazione difficile in questo momento, usa la sezione "Valuta la tua situazione" per ricevere suggerimenti personalizzati e supporto immediato.</p>
+                </div>
+                <button class="btn btn-primary" onclick="showScreen('autovalutazione')" style="width: 100%; margin-bottom: 10px;">Valuta la tua situazione</button>
+                <button class="btn btn-secondary" onclick="resetQuestionarioNuovo()" style="width: 100%; margin-bottom: 10px;">Compila di nuovo</button>
+                <button class="btn btn-secondary" onclick="showScreen('home')" style="width: 100%;">Torna alla Home</button>
+            </div>
+
+            <!-- PULSANTI NAVIGAZIONE -->
+            <div id="quest-buttons" style="display: flex; gap: 12px; padding: 20px; background: #f7fafc; border-top: 1px solid #e0e0e0;">
+                <button class="btn btn-secondary" id="quest-prevBtn" onclick="questPrevQuestion()" style="flex: 1;">← Indietro</button>
+                <button class="btn btn-primary" id="quest-nextBtn" onclick="questNextQuestion()" disabled style="flex: 1;">Avanti →</button>
+            </div>
+        </div>
+
+        
+
+        <!-- AUTOVALUTAZIONE SCREEN -->
+        <div id="screen-autovalutazione" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Valuta la tua situazione</h1>
+                <p class="subtitle">Analizza il livello di rischio</p>
+            </div>
+
+            <div class="content">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%"></div>
+                </div>
+
+                <div id="scenario-selection">
+                    <h2 style="margin-bottom: 20px; color: #333;">Seleziona la situazione:</h2>
+                    <div class="scenario-card" onclick="startEvaluation('social')">
+                        <h3>📱 Situazione sui Social Media</h3>
+                        <p>Qualcuno sta postando cose su di te, condividendo foto senza permesso o commentando negativamente.</p>
+                    </div>
+                    <div class="scenario-card" onclick="startEvaluation('scuola')">
+                        <h3>🏫 Situazione a Scuola</h3>
+                        <p>Stai vivendo situazioni difficili a scuola: esclusione, prese in giro, minacce o altro.</p>
+                    </div>
+                    <div class="scenario-card" onclick="startEvaluation('chat')">
+                        <h3>💬 Situazione in Chat/Messaggi</h3>
+                        <p>Ricevi messaggi offensivi, minacce o pressioni tramite WhatsApp, Instagram o altre app.</p>
+                    </div>
+                    <div class="scenario-card" onclick="startEvaluation('gruppo')">
+                        <h3>👥 Esclusione dal Gruppo</h3>
+                        <p>Vieni escluso/a dal gruppo di amici, ignorato/a o isolato/a.</p>
+                    </div>
+                </div>
+
+                <div id="evaluation-questions" style="display: none;">
+                    <!-- Questions will be loaded here dynamically -->
+                </div>
+
+                <div id="evaluation-result" style="display: none;">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SOS SCREEN -->
+        <div id="screen-sos" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Ho bisogno di aiuto</h1>
+                <p class="subtitle">Non sei solo/a. Siamo qui per te</p>
+            </div>
+
+            <div class="content">
+                <div class="alert alert-high" style="margin-bottom: 20px;">
+                    ⚠️ Se sei in pericolo immediato, chiama il 112
+                </div>
+
+                <div class="sos-buttons">
+                    <a href="https://www.youpol.poliziadistato.it/" target="_blank" class="sos-btn">
+                        <div class="icon">👮</div>
+                        <div class="text">
+                            <h3>App YouPol</h3>
+                            <p>Segnala anonimamente episodi di bullismo alla Polizia di Stato</p>
+                        </div>
+                    </a>
+
+                    <a href="tel:19696" class="sos-btn">
+                        <div class="icon">📞</div>
+                        <div class="text">
+                            <h3>Telefono Azzurro - 19696</h3>
+                            <p>Ascolto e supporto 24/7 per bambini e adolescenti</p>
+                        </div>
+                    </a>
+
+                    <a href="tel:80066969" class="sos-btn">
+                        <div class="icon">☎️</div>
+                        <div class="text">
+                            <h3>Numero Verde - 800.66.96.96</h3>
+                            <p>Numero nazionale contro bullismo e cyberbullismo</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.commissariatodips.it/" target="_blank" class="sos-btn">
+                        <div class="icon">💻</div>
+                        <div class="text">
+                            <h3>Polizia Postale</h3>
+                            <p>Segnala crimini informatici e cyberbullismo</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>🏫 Parla con qualcuno a scuola</h3>
+                    <p>Puoi sempre rivolgerti a un insegnante di fiducia, al referente antibullismo della tua scuola o al dirigente scolastico. Non sei solo/a.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>👨‍👩‍👧 Coinvolgi la tua famiglia</h3>
+                    <p>Parlare con i tuoi genitori o con un adulto di fiducia è importante. Possono aiutarti e proteggerti.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMPARA SCREEN -->
+        <div id="screen-impara" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Impara</h1>
+                <p class="subtitle">Informati e proteggiti</p>
+            </div>
+
+            <div class="content">
+                <div class="info-card">
+                    <h3>🤜 Cos'è il Bullismo?</h3>
+                    <p>Il bullismo è un comportamento aggressivo intenzionale e ripetuto che crea uno squilibrio di potere. Include atti fisici (spinte, pugni), verbali (insulti, prese in giro) o relazionali (esclusione, diffusione di voci).</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>💻 Cos'è il Cyberbullismo?</h3>
+                    <p>Il cyberbullismo è bullismo che avviene online tramite social media, messaggi, email o altre piattaforme digitali. Può includere: minacce, diffamazione, diffusione di immagini imbarazzanti, esclusione da gruppi online, furto di identità.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>⚠️ Segnali da Riconoscere</h3>
+                    <p><strong>Sei vittima se:</strong><br>
+                    • Ti senti spesso triste, ansioso/a o solo/a<br>
+                    • Hai paura di andare a scuola<br>
+                    • Le tue cose vengono danneggiate o rubate<br>
+                    • Ricevi messaggi offensivi o minacce<br>
+                    • Vieni escluso/a sistematicamente dal gruppo</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>✅ Cosa Fare se Sei Vittima</h3>
+                    <p>1. Non rispondere alle provocazioni<br>
+                    2. Salva le prove (screenshot, messaggi)<br>
+                    3. Blocca chi ti molesta<br>
+                    4. Parlane con un adulto di fiducia<br>
+                    5. Segnala agli insegnanti o alle autorità<br>
+                    6. Non colpevolizzarti: non è colpa tua</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>👀 Se Sei Testimone</h3>
+                    <p>Anche tu puoi fare la differenza!<br>
+                    • Non ridere o incoraggiare il bullo<br>
+                    • Supporta la vittima<br>
+                    • Segnala agli adulti<br>
+                    • Non condividere contenuti offensivi<br>
+                    • Sii coraggioso/a: la tua voce conta</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>🧠 Se Pensi di Essere un Bullo</h3>
+                    <p>È importante riconoscere i propri comportamenti. Se ti rendi conto di aver fatto del male a qualcuno:<br>
+                    • Fermati e rifletti sulle conseguenze<br>
+                    • Chiedi scusa sinceramente<br>
+                    • Parla con uno psicologo o un adulto<br>
+                    • Lavora per cambiare i tuoi comportamenti<br>
+                    • Ricorda: tutti possono cambiare e migliorare</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSUETUDINI SCREEN -->
+        <div id="screen-consuetudini" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Consuetudini</h1>
+                <p class="subtitle">È davvero normale?</p>
+            </div>
+
+            <div class="content">
+                <p style="margin-bottom: 20px; color: #666;">Spesso diamo per scontati comportamenti che in realtà non sono corretti. Vediamo insieme alcune "consuetudini" che vanno cambiate:</p>
+
+                <div class="consuetudine">
+                    <h4>"Tutti insultano nei commenti, è normale"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Gli insulti online sono reato e fanno male come quelli dal vivo
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"Posso pubblicare foto di amici senza chiedere"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Serve sempre il permesso. È questione di rispetto e privacy
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"Se qualcuno mi fa arrabbiare, posso insultarlo in chat di gruppo"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Umiliare qualcuno pubblicamente è cyberbullismo
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"Le prese in giro sono solo scherzi"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Se fanno stare male l'altra persona, non sono scherzi
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"È normale condividere la password con il/la fidanzato/a"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - La privacy è un diritto, anche nelle relazioni
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"Se lo fanno tutti, anche io posso escludere qualcuno dal gruppo"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - L'esclusione sistematica è una forma di bullismo
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"I 'mi piace' e i commenti non contano, è solo online"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Le parole online hanno lo stesso peso di quelle dal vivo
+                    </div>
+                </div>
+
+                <div class="consuetudine">
+                    <h4>"Posso creare profili fake per spiare o scherzare"</h4>
+                    <div class="risposta sbagliata">
+                        ❌ FALSO - Il furto d'identità è reato anche se "per scherzo"
+                    </div>
+                </div>
+
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>💡 Ricorda</h3>
+                    <p>Solo perché "lo fanno tutti" non significa che sia giusto. Sii il cambiamento che vuoi vedere: inizia tu a comportarti con rispetto ed empatia.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESTIMONIANZE SCREEN -->
+        <div id="screen-testimonianze" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Testimonianze</h1>
+                <p class="subtitle">Storie vere di chi ce l'ha fatta</p>
+            </div>
+
+            <div class="content">
+                <div class="testimonianza">
+                    <div class="autore">Marco, 16 anni</div>
+                    <div class="testo">"Per mesi ho ricevuto messaggi offensivi su WhatsApp. Pensavo di poterli ignorare, ma stavo sempre peggio. Quando ho trovato il coraggio di parlarne con mia madre e con la prof, tutto è cambiato. Ora sto meglio e ho capito che chiedere aiuto non è debolezza."</div>
+                </div>
+
+                <div class="testimonianza">
+                    <div class="autore">Sofia, 15 anni</div>
+                    <div class="testo">"Mi sentivo esclusa da tutto il gruppo. Nessuno mi invitava più, mi ignoravano nei corridoi. Ho usato l'app NOBULL e ho capito che era bullismo. Ho parlato con lo psicologo della scuola e piano piano sono riuscita a costruire nuove amicizie."</div>
+                </div>
+
+                <div class="testimonianza">
+                    <div class="autore">Alessandro, 17 anni</div>
+                    <div class="testo">"Mi vergogno, ma devo ammettere che ero io il bullo. Prendevo in giro un compagno 'per scherzo'. Quando ho visto quanto stava male, mi sono reso conto del male che stavo facendo. Ho chiesto scusa e sto lavorando per essere migliore."</div>
+                </div>
+
+                <div class="testimonianza">
+                    <div class="autore">Giulia, 14 anni</div>
+                    <div class="testo">"Avevano creato un profilo fake su Instagram con le mie foto, scrivendo cose orribili. Ero disperata. L'app YouPol mi ha aiutato a segnalare tutto alla Polizia Postale. Hanno trovato i responsabili e ora mi sento al sicuro."</div>
+                </div>
+
+                <div class="testimonianza">
+                    <div class="autore">Luca, 16 anni</div>
+                    <div class="testo">"Ero testimone di bullismo verso un mio compagno ma avevo paura di dire qualcosa. Un giorno ho trovato il coraggio di parlare con un professore. Ora il mio compagno sta meglio e io sono orgoglioso di aver fatto la cosa giusta."</div>
+                </div>
+
+                <!-- BOX INVITO A RACCONTARE -->
+                <div id="testimonianza-invito" class="info-card" style="margin-top: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                    <h3 style="color: white; margin-bottom: 10px;">📝 Vuoi raccontare anche tu la tua storia?</h3>
+                    <p style="margin-bottom: 15px; line-height: 1.6; color: white;">Le testimonianze ci aiutano a capirci meglio e a supportarci a vicenda. La tua storia sarà completamente ANONIMA e potrà aiutare altri ragazzi.</p>
+                    <button class="btn" onclick="mostraFormTestimonianza()" style="background: white; color: #667eea; font-weight: 600; width: 100%;">
+                        📝 Raccontaci la tua storia
+                    </button>
+                </div>
+
+                <!-- FORM TESTIMONIANZA (nascosto inizialmente) -->
+                <div id="testimonianza-form" style="display: none; margin-top: 30px; padding: 20px; background: #f7fafc; border-radius: 12px; border: 2px solid #e0e0e0;">
+                    <h3 style="margin-bottom: 15px; color: #333;">📝 Racconta la tua storia</h3>
+                    <p style="color: #666; margin-bottom: 20px; line-height: 1.6;">
+                        La tua testimonianza è <strong>completamente ANONIMA</strong> e può aiutare altri ragazzi che stanno vivendo situazioni simili.
+                    </p>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; color: #333; margin-bottom: 8px;">
+                            Età o Classe (opzionale):
+                        </label>
+                        <input type="text" id="testimonianza-eta" placeholder="es: 15 anni, 3A" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;" maxlength="20">
+                        <small style="color: #999; display: block; margin-top: 5px;">Puoi lasciare vuoto se preferisci</small>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-weight: 600; color: #333; margin-bottom: 8px;">
+                            Racconta la tua esperienza: <span style="color: red;">*</span>
+                        </label>
+                        <textarea id="testimonianza-testo" rows="8" placeholder="Scrivi qui la tua storia..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical; font-family: inherit;" minlength="50" maxlength="1000"></textarea>
+                        <small style="color: #999; display: block; margin-top: 5px;">Minimo 50 caratteri - <span id="char-count">0</span>/1000</small>
+                    </div>
+
+                    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <strong style="color: #856404; display: block; margin-bottom: 5px;">⚠️ IMPORTANTE:</strong>
+                        <ul style="color: #856404; margin: 0; padding-left: 20px; line-height: 1.6;">
+                            <li>NON inserire nomi di persone</li>
+                            <li>NON inserire cognomi</li>
+                            <li>NON inserire nomi di scuole</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" id="testimonianza-consenso" style="width: 20px; height: 20px; margin-right: 10px;">
+                            <span style="color: #333; line-height: 1.5;">Ho capito che questa testimonianza sarà anonima e moderata prima della pubblicazione</span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-primary" onclick="inviaTestimonianza()" style="flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600;">
+                            ✅ Invia in modo anonimo
+                        </button>
+                        <button class="btn btn-secondary" onclick="annullaTestimonianza()" style="flex: 1;">
+                            ❌ Annulla
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MESSAGGIO CONFERMA (nascosto inizialmente) -->
+                <div id="testimonianza-conferma" style="display: none; margin-top: 30px; padding: 30px; background: #d4edda; border-radius: 12px; border: 2px solid #28a745; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 15px;">✅</div>
+                    <h3 style="color: #155724; margin-bottom: 15px;">Testimonianza inviata!</h3>
+                    <p style="color: #155724; line-height: 1.6; margin-bottom: 20px;">
+                        Grazie per aver condiviso la tua storia. È stata ricevuta in modo <strong>ANONIMO</strong>.
+                        <br><br>
+                        La tua testimonianza sarà letta dal nostro team e potrebbe essere pubblicata per aiutare altri studenti.
+                    </p>
+                    <button class="btn btn-secondary" onclick="resetFormTestimonianza()" style="width: 100%;">
+                        🏠 Torna alle testimonianze
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOTIVAZIONE SCREEN -->
+        <div id="screen-motivazione" class="screen">
+            <div class="header">
+                <a href="#" class="back-button" onclick="showScreen('home'); return false;">← Indietro</a>
+                <h1>Messaggio del Giorno</h1>
+                <p class="subtitle">Un pensiero per te</p>
+            </div>
+
+            <div class="content">
+                <div class="quote" style="font-size: 18px; padding: 40px 20px;" id="daily-message">
+                    <!-- Message will be loaded dynamically -->
+                </div>
+
+                <button class="btn" onclick="generateNewMessage()">🔄 Nuovo messaggio</button>
+
+                <div class="info-card" style="margin-top: 30px;">
+                    <h3>💪 Ricorda sempre</h3>
+                    <p>Sei importante. La tua voce conta. Non sei solo/a. Insieme siamo più forti.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of motivational messages
+        const messages = [
+            "La gentilezza è una forza, non una debolezza",
+            "Oggi scegli di essere la ragione del sorriso di qualcuno",
+            "Sei importante. La tua voce conta",
+            "Le parole possono ferire o guarire. Scegli con cura",
+            "Non sei mai solo/a. Ci sono persone pronte ad aiutarti",
+            "Il coraggio non è assenza di paura, ma agire nonostante la paura",
+            "Ogni giorno è una nuova opportunità per essere gentile",
+            "La tua unicità è la tua forza",
+            "Piccoli gesti di gentilezza possono cambiare il mondo",
+            "Non permettere a nessuno di spegnere la tua luce",
+            "Essere diversi è ciò che ci rende speciali",
+            "La vera forza sta nel difendere chi non può difendersi",
+            "Le tue parole hanno potere: usale per costruire, non per distruggere",
+            "Insieme siamo più forti del bullismo",
+            "Chiedere aiuto è un segno di coraggio, non di debolezza",
+            "Tu sei abbastanza, così come sei",
+            "La gentilezza è contagiosa: inizia tu",
+            "Non lasciare che le parole degli altri definiscano chi sei",
+            "Ogni persona che incontri sta combattendo una battaglia di cui non sai nulla",
+            "Il rispetto inizia da te",
+            "Non sottovalutare l'impatto di un gesto gentile",
+            "La tua storia non finisce qui: sei più forte di quello che pensi",
+            "L'empatia è il superpotere che può cambiare il mondo",
+            "Difendere qualcuno non ti rende debole, ti rende un eroe",
+            "Le cicatrici dimostrano che sei sopravvissuto/a e sei più forte",
+            "Non sei definito/a dal tuo passato, ma dalle tue scelte di oggi",
+            "La felicità si trova nell'essere gentili con gli altri",
+            "Ogni persona merita rispetto, sempre",
+            "Il silenzio di fronte al bullismo è complicità: alza la voce",
+            "Sei prezioso/a. Non lasciare che nessuno ti faccia sentire diversamente"
+        ];
+
+        // Scenarios database
+        const scenarios = {
+            social: {
+                title: "Situazione sui Social Media",
+                questions: [
+                    {
+                        q: "Qualcuno sta pubblicando contenuti su di te senza il tuo permesso?",
+                        weight: 3
+                    },
+                    {
+                        q: "Questi contenuti sono offensivi, imbarazzanti o falsi?",
+                        weight: 4
+                    },
+                    {
+                        q: "Succede da più di una settimana?",
+                        weight: 2
+                    },
+                    {
+                        q: "Altre persone stanno commentando o condividendo questi contenuti?",
+                        weight: 3
+                    },
+                    {
+                        q: "Ti senti angosciato/a o hai paura quando usi i social?",
+                        weight: 4
+                    }
+                ]
+            },
+            scuola: {
+                title: "Situazione a Scuola",
+                questions: [
+                    {
+                        q: "Vieni preso/a in giro, insultato/a o minacciato/a?",
+                        weight: 4
+                    },
+                    {
+                        q: "Succede regolarmente (almeno una volta a settimana)?",
+                        weight: 3
+                    },
+                    {
+                        q: "Coinvolge più di una persona?",
+                        weight: 2
+                    },
+                    {
+                        q: "Hai subito violenze fisiche o le tue cose sono state danneggiate?",
+                        weight: 5
+                    },
+                    {
+                        q: "Hai paura di andare a scuola o eviti certi luoghi/persone?",
+                        weight: 4
+                    }
+                ]
+            },
+            chat: {
+                title: "Situazione in Chat/Messaggi",
+                questions: [
+                    {
+                        q: "Ricevi messaggi offensivi, minacce o insulti?",
+                        weight: 4
+                    },
+                    {
+                        q: "Succede frequentemente (più volte a settimana)?",
+                        weight: 3
+                    },
+                    {
+                        q: "Coinvolge più persone o gruppi?",
+                        weight: 2
+                    },
+                    {
+                        q: "I messaggi contengono minacce alla tua sicurezza o privacy?",
+                        weight: 5
+                    },
+                    {
+                        q: "Ti senti stressato/a, ansioso/a o hai difficoltà a dormire?",
+                        weight: 3
+                    }
+                ]
+            },
+            gruppo: {
+                title: "Esclusione dal Gruppo",
+                questions: [
+                    {
+                        q: "Vieni escluso/a intenzionalmente dalle attività di gruppo?",
+                        weight: 3
+                    },
+                    {
+                        q: "Succede regolarmente e sistematicamente?",
+                        weight: 3
+                    },
+                    {
+                        q: "Ti ignorano o parlano male di te?",
+                        weight: 3
+                    },
+                    {
+                        q: "Ti senti isolato/a e solo/a?",
+                        weight: 4
+                    },
+                    {
+                        q: "Questa situazione sta influenzando negativamente la tua vita (studio, sonno, umore)?",
+                        weight: 4
+                    }
+                ]
+            }
+        };
+
+        let currentScenario = null;
+        let currentQuestionIndex = 0;
+        let answers = [];
+
+        // QUESTIONARIO - Gestione Step by Step
+        let questCurrentStep = 1;
+        let questTotalSteps = 13;
+        let questAnswers = {};
+        let questFlow = [];
+
+        function initQuestionario() {
+            // Aggiungi listener ai radio buttons
+            document.querySelectorAll('#quest-container input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    questAnswers[this.name] = this.value;
+                    questUpdateButtons();
+                    questUpdateFlow();
+                });
+            });
+
+            // Listener textarea
+            const textarea = document.getElementById('q-modo-denuncia');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    questAnswers['q-modo-denuncia'] = this.value;
+                    questUpdateButtons();
+                });
+            }
+
+            questUpdateProgress();
+            questUpdateButtons();
+        }
+
+        function questUpdateFlow() {
+            questFlow = [];
+            
+            // Domande base
+            for (let i = 1; i <= 8; i++) {
+                questFlow.push(i);
+            }
+            
+            // Domande condizionali
+            if (questAnswers['q-denunciato'] === 'si') {
+                questFlow.push(9, 10);
+            } else if (questAnswers['q-denunciato'] === 'no') {
+                questFlow.push(11);
+                if (questAnswers['q-sai-chi'] === 'no') {
+                    questFlow.push(12);
+                }
+            }
+            
+            questFlow.push(13);
+            questTotalSteps = questFlow.length;
+        }
+
+        function questGetActualStep() {
+            if (questFlow.length === 0) return questCurrentStep;
+            return questFlow.indexOf(questCurrentStep) + 1;
+        }
+
+        function questNextQuestion() {
+            const currentQuestion = document.querySelector(`.quest-step[data-step="${questCurrentStep}"]`);
+            const currentInputs = currentQuestion.querySelectorAll('input[type="radio"], textarea');
+            
+            let hasAnswer = false;
+            currentInputs.forEach(input => {
+                if (input.type === 'radio' && input.checked) hasAnswer = true;
+                if (input.tagName === 'TEXTAREA' && input.value.trim()) hasAnswer = true;
+            });
+            
+            if (!hasAnswer) {
+                alert('Per favore rispondi alla domanda prima di continuare');
+                return;
+            }
+            
+            currentQuestion.classList.remove('active');
+            
+            questUpdateFlow();
+            const currentIndex = questFlow.indexOf(questCurrentStep);
+            
+            if (currentIndex < questFlow.length - 1) {
+                questCurrentStep = questFlow[currentIndex + 1];
+                const nextQuestion = document.querySelector(`.quest-step[data-step="${questCurrentStep}"]`);
+                nextQuestion.classList.add('active');
+            } else {
+                questShowResult();
+                return;
+            }
+            
+            questUpdateProgress();
+            questUpdateButtons();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function questPrevQuestion() {
+            const currentQuestion = document.querySelector(`.quest-step[data-step="${questCurrentStep}"]`);
+            currentQuestion.classList.remove('active');
+            
+            questUpdateFlow();
+            const currentIndex = questFlow.indexOf(questCurrentStep);
+            
+            if (currentIndex > 0) {
+                questCurrentStep = questFlow[currentIndex - 1];
+                const prevQuestion = document.querySelector(`.quest-step[data-step="${questCurrentStep}"]`);
+                prevQuestion.classList.add('active');
+            }
+            
+            questUpdateProgress();
+            questUpdateButtons();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function questUpdateProgress() {
+            const actualStep = questGetActualStep();
+            const progress = (actualStep / questTotalSteps) * 100;
+            document.getElementById('quest-progress-fill').style.width = progress + '%';
+        }
+
+        function questUpdateButtons() {
+            const prevBtn = document.getElementById('quest-prevBtn');
+            const nextBtn = document.getElementById('quest-nextBtn');
+            
+            questUpdateFlow();
+            const currentIndex = questFlow.indexOf(questCurrentStep);
+            prevBtn.disabled = currentIndex === 0;
+            
+            const currentQuestion = document.querySelector(`.quest-step[data-step="${questCurrentStep}"]`);
+            const currentInputs = currentQuestion.querySelectorAll('input[type="radio"], textarea');
+            
+            let hasAnswer = false;
+            currentInputs.forEach(input => {
+                if (input.type === 'radio' && input.checked) hasAnswer = true;
+                if (input.tagName === 'TEXTAREA' && input.value.trim()) hasAnswer = true;
+            });
+            
+            nextBtn.disabled = !hasAnswer;
+            
+            if (currentIndex === questFlow.length - 1) {
+                nextBtn.textContent = 'Invia ✓';
+            } else {
+                nextBtn.textContent = 'Avanti →';
+            }
+        }
+
+        function questShowResult() {
+            // Mostra risultato
+            document.getElementById('quest-container').style.display = 'none';
+            document.getElementById('quest-buttons').style.display = 'none';
+            document.getElementById('quest-result').style.display = 'block';
+            
+            console.log('Risposte questionario:', questAnswers);
+            
+            // INVIA DATI A GOOGLE SHEETS
+            fetch('https://script.google.com/macros/s/AKfycbzkuYRMqyEOallhiNkciPR6ppHa0YGsTAwsdlifV7qUhnzRiWC9ElboHFmS7m6xcSM0/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(questAnswers)
+            })
+            .then(() => {
+                console.log('Dati inviati a Google Sheets con successo!');
+            })
+            .catch((error) => {
+                console.error('Errore invio dati:', error);
+            });
+        }
+
+        function resetQuestionarioNuovo() {
+            questCurrentStep = 1;
+            questAnswers = {};
+            questFlow = [];
+            
+            document.querySelectorAll('#quest-container input[type="radio"]').forEach(r => r.checked = false);
+            document.getElementById('q-modo-denuncia').value = '';
+            
+            document.querySelectorAll('.quest-step').forEach(s => s.classList.remove('active'));
+            document.querySelector('.quest-step[data-step="1"]').classList.add('active');
+            
+            document.getElementById('quest-container').style.display = 'block';
+            document.getElementById('quest-buttons').style.display = 'flex';
+            document.getElementById('quest-result').style.display = 'none';
+            
+            questUpdateProgress();
+            questUpdateButtons();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+
+        function showScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-' + screenName).classList.add('active');
+            
+            if (screenName === 'motivazione') {
+                generateNewMessage();
+            }
+            
+            if (screenName === 'autovalutazione') {
+                resetEvaluation();
+            }
+
+            if (screenName === 'questionario') {
+                // Inizializza il questionario step-by-step
+                if (questCurrentStep === 1 && Object.keys(questAnswers).length === 0) {
+                    initQuestionario();
+                }
+            }
+        }
+
+        function resetEvaluation() {
+            document.getElementById('scenario-selection').style.display = 'block';
+            document.getElementById('evaluation-questions').style.display = 'none';
+            document.getElementById('evaluation-result').style.display = 'none';
+            currentScenario = null;
+            currentQuestionIndex = 0;
+            answers = [];
+            updateProgress();
+        }
+
+        function startEvaluation(scenarioType) {
+            currentScenario = scenarios[scenarioType];
+            currentQuestionIndex = 0;
+            answers = [];
+            
+            document.getElementById('scenario-selection').style.display = 'none';
+            document.getElementById('evaluation-questions').style.display = 'block';
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= currentScenario.questions.length) {
+                showResult();
+                return;
+            }
+
+            const question = currentScenario.questions[currentQuestionIndex];
+            const container = document.getElementById('evaluation-questions');
+            
+            container.innerHTML = `
+                <h2 style="margin-bottom: 20px; color: #333;">Domanda ${currentQuestionIndex + 1} di ${currentScenario.questions.length}</h2>
+                <div class="question">
+                    <label>${question.q}</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="answer-si" name="answer" value="si">
+                            <label for="answer-si">Sì</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="answer-no" name="answer" value="no">
+                            <label for="answer-no">No</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="answer-forse" name="answer" value="forse">
+                            <label for="answer-forse">Forse</label>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" onclick="nextQuestion()">Avanti →</button>
+                ${currentQuestionIndex > 0 ? '<button class="btn btn-secondary" onclick="previousQuestion()">← Indietro</button>' : ''}
+            `;
+
+            updateProgress();
+        }
+
+        function nextQuestion() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (!selectedAnswer) {
+                alert('Seleziona una risposta per continuare');
+                return;
+            }
+
+            // NUOVO SISTEMA: SÌ=20, FORSE=10, NO=0
+            const value = selectedAnswer.value === 'si' ? 20 : selectedAnswer.value === 'forse' ? 10 : 0;
+            answers[currentQuestionIndex] = value;
+            
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestionIndex / currentScenario.questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function showResult() {
+            // NUOVO SISTEMA PUNTEGGI: SÌ=20, FORSE=10, NO=0
+            let totalScore = 0;
+            const maxScore = 100; // 5 domande × 20 punti = 100 punti massimo
+
+            currentScenario.questions.forEach((q, i) => {
+                // answers[i] contiene già il valore: 20, 10, o 0
+                totalScore += (answers[i] || 0);
+            });
+            
+            let level, alertClass, message, suggestions, emoji;
+
+            // NUOVI RANGE: 0-25, 26-45, 46-84, 85-100
+            if (totalScore <= 25) {
+                level = "SITUAZIONE SOTTO CONTROLLO";
+                alertClass = "alert-low";
+                emoji = "🟢";
+                message = "La tua situazione sembra gestibile. Comunque è importante restare attenti. Se le cose dovessero cambiare, torna qui e rifai il test.";
+                suggestions = [
+                    "Continua a monitorare la situazione",
+                    "Se peggiora, ripeti la valutazione",
+                    "Impara a riconoscere i segnali di bullismo nella sezione \"Impara\"",
+                    "Parla con amici di fiducia se hai dubbi"
+                ];
+            } else if (totalScore <= 45) {
+                level = "ATTENZIONE CONSIGLIATA";
+                alertClass = "alert-medium";
+                emoji = "🟡";
+                message = "Questa situazione ti sta mettendo a disagio. Ti consigliamo di parlarne con qualcuno di cui ti fidi: un genitore, un insegnante, o un amico più grande. Non devi affrontare tutto da solo/a.";
+                suggestions = [
+                    "Parla con un genitore o un insegnante di cui ti fidi",
+                    "Documenta gli episodi (screenshot, note con date)",
+                    "Non rispondere alle provocazioni",
+                    "Considera di contattare il referente antibullismo della scuola"
+                ];
+            } else if (totalScore <= 84) {
+                level = "SERVE SUPPORTO";
+                alertClass = "alert-high";
+                emoji = "🟠";
+                message = "Quello che stai vivendo è difficile e può avere conseguenze serie. È importante che tu ne parli con un adulto (genitore, insegnante, referente antibullismo). Hai diritto ad essere aiutato/a. Conserva eventuali prove (screenshot, messaggi).";
+                suggestions = [
+                    "Parla con un genitore o un insegnante di cui ti fidi - è il primo passo più importante",
+                    "Raccogli tutte le prove disponibili (screenshot, messaggi, foto)",
+                    "Contatta il referente antibullismo della tua scuola",
+                    "Numero Verde Bullismo: 800.66.96.96 (gratuito e anonimo)",
+                    "App YouPol - per segnalazioni alla Polizia di Stato",
+                    "Non affrontare da solo/a la situazione"
+                ];
+            } else {
+                level = "SITUAZIONE SERIA";
+                alertClass = "alert-critical";
+                emoji = "🔴";
+                message = "La situazione che hai descritto è seria e ti sta facendo stare male. Non sei solo/a.";
+                suggestions = [
+                    "Parla con un genitore o un insegnante di cui ti fidi - devono sapere cosa sta succedendo",
+                    "Numero Verde Bullismo: 800.66.96.96 (gratuito, attivo H24)",
+                    "App YouPol - per fare segnalazione alla Polizia di Stato",
+                    "Conserva tutte le prove (screenshot, messaggi, foto)",
+                    "Chiedi un intervento immediato della scuola"
+                ];
+            }
+
+            document.getElementById('evaluation-questions').style.display = 'none';
+            document.getElementById('evaluation-result').style.display = 'block';
+            document.getElementById('progress').style.width = '100%';
+
+            document.getElementById('evaluation-result').innerHTML = `
+                <h2 style="margin-bottom: 20px; color: #333;">Risultato Valutazione</h2>
+                
+                <div class="alert ${alertClass}">
+                    <div style="font-size: 36px; margin-bottom: 10px;">
+                        ${emoji}
+                    </div>
+                    <div style="font-size: 18px; margin-bottom: 15px; font-weight: 600;">${level}</div>
+                    <div style="font-size: 14px; font-weight: normal; line-height: 1.6;">${message}</div>
+                </div>
+
+                <div class="suggestions">
+                    <h4>💡 Cosa fare:</h4>
+                    <ul>
+                        ${suggestions.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                </div>
+
+                ${totalScore >= 46 ? `
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                        <button class="btn btn-danger" onclick="window.open('tel:800669696')" style="width: 100%;">
+                            📞 Numero Verde Bullismo - 800.66.96.96
+                        </button>
+                        <button class="btn btn-danger" onclick="window.open('https://www.youpol.poliziadistato.it/')" style="width: 100%;">
+                            👮 Apri App YouPol
+                        </button>
+                    </div>
+                ` : ''}
+
+                ${totalScore >= 85 ? `
+                    <div class="info-card" style="margin-top: 20px; background: #fff3cd; border-left: 4px solid #ffc107;">
+                        <p style="margin: 0; font-weight: 600; color: #856404;">Chiedere aiuto è un segno di forza, non di debolezza. Agisci ora, la situazione può peggiorare se aspetti.</p>
+                    </div>
+                ` : ''}
+
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="resetEvaluation()" style="width: 100%;">
+                        🔄 Nuova Valutazione
+                    </button>
+                    <button class="btn btn-secondary" onclick="showScreen('home')" style="width: 100%;">
+                        🏠 Torna alla Home
+                    </button>
+                </div>
+
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>ℹ️ Importante</h3>
+                    <p>Questa valutazione è uno strumento di supporto, non sostituisce il parere di professionisti. In caso di dubbio, rivolgiti sempre a un adulto di fiducia o a un esperto.</p>
+                </div>
+            `;
+        }
+
+        function generateNewMessage() {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('daily-message').textContent = randomMessage;
+        }
+
+        // Initialize
+        window.onload = function() {
+            generateNewMessage();
+        };
+
+        // Questionario functions
+        function toggleDomandaReazione() {
+            const assistito = document.querySelector('input[name="assistito"]:checked');
+            const domandaReazione = document.getElementById('domanda-reazione');
+            const domandaDifesa = document.getElementById('domanda-difesa');
+            
+            if (assistito && assistito.value === 'si') {
+                domandaReazione.style.display = 'block';
+                domandaDifesa.style.display = 'block';
+            } else {
+                domandaReazione.style.display = 'none';
+                domandaDifesa.style.display = 'none';
+                // Reset selections
+                document.querySelectorAll('input[name="reazione"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="difesa"]').forEach(r => r.checked = false);
+            }
+        }
+
+        function toggleDomandeDenuncia() {
+            const denunciato = document.querySelector('input[name="denunciato"]:checked');
+            const domandaModo = document.getElementById('domanda-modo');
+            const domandaAnonimo = document.getElementById('domanda-anonimo');
+            const domandaSai = document.getElementById('domanda-sai');
+            const domandaAchi = document.getElementById('domanda-achi');
+            
+            if (denunciato && denunciato.value === 'si') {
+                domandaModo.style.display = 'block';
+                domandaAnonimo.style.display = 'block';
+                domandaSai.style.display = 'none';
+                domandaAchi.style.display = 'none';
+                // Reset
+                document.querySelectorAll('input[name="sai-chi"]').forEach(r => r.checked = false);
+                document.querySelectorAll('input[name="a-chi"]').forEach(r => r.checked = false);
+            } else if (denunciato && denunciato.value === 'no') {
+                domandaModo.style.display = 'none';
+                domandaAnonimo.style.display = 'none';
+                domandaSai.style.display = 'block';
+                // Reset
+                document.getElementById('modo-denuncia').value = '';
+                document.querySelectorAll('input[name="tipo-denuncia"]').forEach(r => r.checked = false);
+            }
+        }
+
+        function toggleDomandaAchi() {
+            const sai = document.querySelector('input[name="sai-chi"]:checked');
+            const domandaAchi = document.getElementById('domanda-achi');
+            
+            if (sai && sai.value === 'no') {
+                domandaAchi.style.display = 'block';
+            } else {
+                domandaAchi.style.display = 'none';
+                // Reset
+                document.querySelectorAll('input[name="a-chi"]').forEach(r => r.checked = false);
+            }
+        }
+
+        function submitQuestionario() {
+            // Validate basic required fields
+            const genere = document.querySelector('input[name="genere"]:checked');
+            const eta = document.querySelector('input[name="eta"]:checked');
+            const volte = document.querySelector('input[name="volte"]:checked');
+            
+            if (!genere || !eta || !volte) {
+                alert('Per favore rispondi almeno alle prime 3 domande');
+                return;
+            }
+
+            // Hide form, show result
+            document.getElementById('questionario-form').style.display = 'none';
+            document.getElementById('questionario-result').style.display = 'block';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function resetQuestionario() {
+            // Reset all form inputs
+            document.getElementById('questionario-form').reset();
+            
+            // Hide conditional questions
+            document.getElementById('domanda-reazione').style.display = 'none';
+            document.getElementById('domanda-difesa').style.display = 'none';
+            document.getElementById('domanda-modo').style.display = 'none';
+            document.getElementById('domanda-anonimo').style.display = 'none';
+            document.getElementById('domanda-sai').style.display = 'none';
+            document.getElementById('domanda-achi').style.display = 'none';
+            
+            // Clear textarea
+            document.getElementById('modo-denuncia').value = '';
+            
+            // Show form, hide result
+            document.getElementById('questionario-form').style.display = 'block';
+            document.getElementById('questionario-result').style.display = 'none';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // ════════════════════════════════════════════════════════════
+        // TESTIMONIANZE - Gestione form "Raccontaci la tua"
+        // ════════════════════════════════════════════════════════════
+
+        // URL dello script Google per testimonianze
+        const TESTIMONIANZE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1aKfN3hHBCoastZgNV6ZFm-Trf3fuR49L9ZcfF398QIlSMz8B83WS6YXYc-36YaL4/exec';
+
+        // Counter caratteri testimonianza
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('testimonianza-testo');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    const count = this.value.length;
+                    document.getElementById('char-count').textContent = count;
+                });
+            }
+        });
+
+        function mostraFormTestimonianza() {
+            document.getElementById('testimonianza-invito').style.display = 'none';
+            document.getElementById('testimonianza-form').style.display = 'block';
+            document.getElementById('testimonianza-conferma').style.display = 'none';
+            
+            // Scroll al form
+            setTimeout(() => {
+                document.getElementById('testimonianza-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function annullaTestimonianza() {
+            if (confirm('Vuoi davvero annullare? Il testo scritto andrà perso.')) {
+                document.getElementById('testimonianza-invito').style.display = 'block';
+                document.getElementById('testimonianza-form').style.display = 'none';
+                
+                // Reset campi
+                document.getElementById('testimonianza-eta').value = '';
+                document.getElementById('testimonianza-testo').value = '';
+                document.getElementById('testimonianza-consenso').checked = false;
+                document.getElementById('char-count').textContent = '0';
+            }
+        }
+
+        function inviaTestimonianza() {
+            const eta = document.getElementById('testimonianza-eta').value.trim();
+            const testo = document.getElementById('testimonianza-testo').value.trim();
+            const consenso = document.getElementById('testimonianza-consenso').checked;
+
+            // Validazioni
+            if (testo.length < 50) {
+                alert('La testimonianza deve essere di almeno 50 caratteri. Attualmente: ' + testo.length + ' caratteri.');
+                return;
+            }
+
+            if (testo.length > 1000) {
+                alert('La testimonianza è troppo lunga. Massimo 1000 caratteri. Attualmente: ' + testo.length + ' caratteri.');
+                return;
+            }
+
+            if (!consenso) {
+                alert('Devi spuntare la casella per confermare di aver capito che la testimonianza sarà anonima e moderata.');
+                return;
+            }
+
+            // Controllo nomi comuni (basilare)
+            const paroleSospette = ['mario', 'luigi', 'giuseppe', 'antonio', 'francesco', 'alessandro', 'andrea', 'marco', 'luca', 'paolo', 'giovanni', 'pietro', 'stefano', 'matteo', 'davide', 'simone', 'lorenzo', 'gabriele', 'riccardo', 'tommaso', 'anna', 'maria', 'laura', 'elena', 'sara', 'giulia', 'chiara', 'francesca', 'valentina', 'martina', 'alessandra', 'sofia', 'federica', 'silvia', 'elisa'];
+            
+            const testoLower = testo.toLowerCase();
+            let trovatiNomi = false;
+            
+            for (let nome of paroleSospette) {
+                if (testoLower.includes(nome)) {
+                    if (confirm('⚠️ ATTENZIONE: Sembra che tu abbia inserito un nome di persona. Ricorda che la testimonianza deve essere ANONIMA.\n\nVuoi inviare comunque?')) {
+                        trovatiNomi = true;
+                        break;
+                    } else {
+                        return;
+                    }
+                }
+            }
+
+            // Prepara dati
+            const dati = {
+                'eta-classe': eta || 'Non specificato',
+                'testimonianza': testo
+            };
+
+            // Mostra loading
+            const btnInvia = event.target;
+            btnInvia.disabled = true;
+            btnInvia.textContent = '⏳ Invio in corso...';
+
+            // Invia a Google Sheets
+            fetch(TESTIMONIANZE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dati)
+            })
+            .then(() => {
+                // Successo
+                document.getElementById('testimonianza-form').style.display = 'none';
+                document.getElementById('testimonianza-conferma').style.display = 'block';
+                
+                // Reset campi
+                document.getElementById('testimonianza-eta').value = '';
+                document.getElementById('testimonianza-testo').value = '';
+                document.getElementById('testimonianza-consenso').checked = false;
+                document.getElementById('char-count').textContent = '0';
+                
+                // Scroll al messaggio
+                setTimeout(() => {
+                    document.getElementById('testimonianza-conferma').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+
+                console.log('Testimonianza inviata con successo!');
+            })
+            .catch((error) => {
+                console.error('Errore invio testimonianza:', error);
+                alert('Si è verificato un errore durante l\'invio. Riprova tra qualche minuto.');
+                btnInvia.disabled = false;
+                btnInvia.textContent = '✅ Invia in modo anonimo';
+            });
+        }
+
+        function resetFormTestimonianza() {
+            document.getElementById('testimonianza-invito').style.display = 'block';
+            document.getElementById('testimonianza-form').style.display = 'none';
+            document.getElementById('testimonianza-conferma').style.display = 'none';
+            
+            // Scroll in alto
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
