@@ -533,7 +533,7 @@
         }
 
         /* ═══════════════════════════════════════════════════ */
-        /* SPLASH SCREEN VIDEO */
+        /* SPLASH SCREEN ANIMATO CSS */
         /* ═══════════════════════════════════════════════════ */
         
         #splash-screen {
@@ -542,13 +542,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #ffffff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.8s ease-out;
         }
         
         #splash-screen.fade-out {
@@ -556,22 +556,165 @@
             pointer-events: none;
         }
         
-        #splash-video {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+        .splash-content {
+            text-align: center;
+            animation: splashFadeIn 0.6s ease-out;
+        }
+        
+        .splash-logo-container {
+            margin-bottom: 30px;
+            animation: logoScale 0.8s ease-out;
+        }
+        
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+        }
+        
+        .splash-logo.rotating {
+            animation: rotateVite 2s ease-in-out;
+        }
+        
+        .splash-text {
+            color: white;
+        }
+        
+        .splash-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: titleSlideUp 0.8s ease-out 0.3s both;
+        }
+        
+        .splash-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            margin: 0 0 30px 0;
+            opacity: 0.95;
+            animation: subtitleFadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        .splash-loading {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+            animation: loadingFadeIn 0.8s ease-out 0.7s both;
+        }
+        
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: loadingProgress 2.5s ease-in-out forwards;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Animazioni */
+        @keyframes splashFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes logoScale {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes rotateVite {
+            0% {
+                transform: rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes titleSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes subtitleFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 0.95;
+            }
+        }
+        
+        @keyframes loadingFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes loadingProgress {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 100%;
+            }
         }
 
     </style>
 </head>
 <body>
-    <!-- SPLASH SCREEN con VIDEO -->
+    <!-- SPLASH SCREEN ANIMATO CSS -->
     <div id="splash-screen">
-        <video id="splash-video" playsinline autoplay muted>
-            <source src="LOGO_SCUOLA_VIDEO.mp4" type="video/mp4">
-        </video>
+        <div class="splash-content">
+            <!-- Logo vite che ruota -->
+            <div class="splash-logo-container">
+                <img src="icon-512.png" alt="NOBULL" class="splash-logo rotating">
+            </div>
+            
+            <!-- Testo animato -->
+            <div class="splash-text">
+                <h1 class="splash-title">NOBULL APP</h1>
+                <p class="splash-subtitle">ITET Cassandro Fermi Nervi</p>
+                <div class="splash-loading">
+                    <div class="loading-bar"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="container">
@@ -1747,51 +1890,18 @@
         }, false);
 
         // ═══════════════════════════════════════════════════
-        // SPLASH SCREEN VIDEO - Gestione sequenza
+        // SPLASH SCREEN ANIMATO - Timer
         // ═══════════════════════════════════════════════════
         
-        let videoSequence = [
-            'LOGO_SCUOLA_VIDEO.mp4',  // Primo video: Scuola (5 sec)
-            'LOGO_APP_VIDEO.mp4'      // Secondo video: Vite (5 sec)
-        ];
-        let currentVideoIndex = 0;
-
-        function initSplashVideos() {
+        function initSplashScreen() {
             const splashScreen = document.getElementById('splash-screen');
-            const video = document.getElementById('splash-video');
             
-            if (!splashScreen || !video) return;
+            if (!splashScreen) return;
 
-            // Gestione fine video
-            video.addEventListener('ended', function() {
-                currentVideoIndex++;
-                
-                if (currentVideoIndex < videoSequence.length) {
-                    // Passa al video successivo
-                    video.src = videoSequence[currentVideoIndex];
-                    video.load();
-                    video.play().catch(err => {
-                        console.log('Errore riproduzione video:', err);
-                        hideSplash();
-                    });
-                } else {
-                    // Tutti i video completati, nascondi splash
-                    hideSplash();
-                }
-            });
-
-            // Gestione errori
-            video.addEventListener('error', function() {
-                console.log('Errore caricamento video, nascondo splash');
+            // Nascondi splash dopo 3 secondi
+            setTimeout(() => {
                 hideSplash();
-            });
-
-            // Inizia la riproduzione
-            video.play().catch(err => {
-                console.log('Impossibile riprodurre video automaticamente:', err);
-                // Se autoplay fallisce, nascondi splash dopo 1 secondo
-                setTimeout(hideSplash, 1000);
-            });
+            }, 3000);
         }
 
         function hideSplash() {
@@ -1803,14 +1913,14 @@
                 // Rimuovi completamente dopo l'animazione
                 setTimeout(() => {
                     splashScreen.style.display = 'none';
-                }, 500);
+                }, 800);
             }
         }
 
         // Inizializza con la home
         window.addEventListener('load', function() {
-            // Inizia i video splash
-            initSplashVideos();
+            // Inizia lo splash screen
+            initSplashScreen();
             
             // Inizializza l'app (nascosta sotto lo splash)
             showScreen('home', true);
