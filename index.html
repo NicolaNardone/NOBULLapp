@@ -2,9 +2,12 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="NOBULL APP 2.0 - App contro bullismo e cyberbullismo">
     <meta name="theme-color" content="#2196F3">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>NOBULL APP 2.0</title>
     <link rel="manifest" href="manifest.json">
     <style>
@@ -1564,10 +1567,39 @@
         }
 
 
-        function showScreen(screenName) {
+        // ════════════════════════════════════════════════════════════
+        // GESTIONE NAVIGAZIONE NATIVA (Pulsante INDIETRO telefono)
+        // ════════════════════════════════════════════════════════════
+        
+        let currentScreen = 'home';
+        let backPressedOnce = false;
+        let backPressTimeout = null;
+
+        function showScreen(screenName, addToHistory = true) {
+            // Nasconde tutte le schermate
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            
+            // Mostra la schermata richiesta
             document.getElementById('screen-' + screenName).classList.add('active');
             
+            // Aggiorna schermata corrente
+            currentScreen = screenName;
+            
+            // Aggiungi alla history per gestire il pulsante back
+            if (addToHistory) {
+                history.pushState({ screen: screenName }, '', '#' + screenName);
+            }
+            
+            // Reset del doppio back quando cambi schermata
+            backPressedOnce = false;
+            if (backPressTimeout) {
+                clearTimeout(backPressTimeout);
+            }
+            
+            // Nasconde il toast se visibile
+            hideBackToast();
+            
+            // Logica specifica per alcune schermate
             if (screenName === 'motivazione') {
                 generateNewMessage();
             }
@@ -1582,7 +1614,104 @@
                     initQuestionario();
                 }
             }
+
+            // Scroll in alto quando cambi schermata
+            window.scrollTo(0, 0);
         }
+
+        // Crea toast HTML per "Premi di nuovo per uscire"
+        function showBackToast() {
+            let toast = document.getElementById('back-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'back-toast';
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 80px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.8);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 10000;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                `;
+                toast.textContent = 'Premi di nuovo INDIETRO per uscire';
+                document.body.appendChild(toast);
+            }
+            
+            // Mostra il toast
+            setTimeout(() => toast.style.opacity = '1', 10);
+        }
+
+        function hideBackToast() {
+            const toast = document.getElementById('back-toast');
+            if (toast) {
+                toast.style.opacity = '0';
+            }
+        }
+
+        // Gestione pulsante INDIETRO del telefono (popstate)
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.screen) {
+                // C'è uno state: torna alla schermata precedente
+                showScreen(event.state.screen, false);
+            } else {
+                // Non c'è state: siamo all'inizio della cronologia
+                // Gestisci doppio back per uscire
+                if (currentScreen === 'home' || !currentScreen) {
+                    handleBackOnHome();
+                } else {
+                    // Torna alla home
+                    showScreen('home', false);
+                }
+            }
+        });
+
+        // Gestione DOPPIO BACK dalla home per uscire
+        function handleBackOnHome() {
+            if (backPressedOnce) {
+                // Secondo click: chiudi l'app (funziona solo in APK)
+                hideBackToast();
+                if (navigator.app && navigator.app.exitApp) {
+                    navigator.app.exitApp();
+                } else {
+                    // Fallback per browser: chiudi la finestra
+                    window.close();
+                }
+            } else {
+                // Primo click: avvisa utente
+                backPressedOnce = true;
+                showBackToast();
+                
+                // Reset dopo 2 secondi
+                backPressTimeout = setTimeout(function() {
+                    backPressedOnce = false;
+                    hideBackToast();
+                }, 2000);
+            }
+        }
+
+        // Gestione evento backbutton per Cordova/PhoneGap (se presente)
+        document.addEventListener('backbutton', function(e) {
+            e.preventDefault();
+            
+            if (currentScreen === 'home') {
+                handleBackOnHome();
+            } else {
+                // Non siamo nella home: torna indietro
+                history.back();
+            }
+        }, false);
+
+        // Inizializza con la home
+        window.addEventListener('load', function() {
+            showScreen('home', true);
+        });
+
 
         function resetEvaluation() {
             document.getElementById('scenario-selection').style.display = 'block';
