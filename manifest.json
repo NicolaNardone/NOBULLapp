@@ -1,23 +1,25 @@
 {
   "name": "NOBULL APP",
   "short_name": "NOBULL",
-  "description": "App antibullismo per studenti",
-  "start_url": "/nobull-app/",
-  "scope": "/nobull-app/",
+  "description": "App antibullismo per studenti - ITET Cassandro Fermi Nervi Barletta",
+  "start_url": "/NOBULLapp/",
+  "scope": "/NOBULLapp/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#667eea",
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "https://via.placeholder.com/192",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "https://via.placeholder.com/512",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
