@@ -532,9 +532,48 @@
             transform: translateX(4px);
         }
 
+        /* ═══════════════════════════════════════════════════ */
+        /* SPLASH SCREEN VIDEO */
+        /* ═══════════════════════════════════════════════════ */
+        
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        #splash-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #splash-video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
     </style>
 </head>
 <body>
+    <!-- SPLASH SCREEN con VIDEO -->
+    <div id="splash-screen">
+        <video id="splash-video" playsinline autoplay muted>
+            <source src="LOGO_SCUOLA_VIDEO.mp4" type="video/mp4">
+        </video>
+    </div>
+
     <div class="container">
         <!-- HOME SCREEN -->
         <div id="screen-home" class="screen active">
@@ -1707,8 +1746,73 @@
             }
         }, false);
 
+        // ═══════════════════════════════════════════════════
+        // SPLASH SCREEN VIDEO - Gestione sequenza
+        // ═══════════════════════════════════════════════════
+        
+        let videoSequence = [
+            'LOGO_SCUOLA_VIDEO.mp4',  // Primo video: Scuola (5 sec)
+            'LOGO_APP_VIDEO.mp4'      // Secondo video: Vite (5 sec)
+        ];
+        let currentVideoIndex = 0;
+
+        function initSplashVideos() {
+            const splashScreen = document.getElementById('splash-screen');
+            const video = document.getElementById('splash-video');
+            
+            if (!splashScreen || !video) return;
+
+            // Gestione fine video
+            video.addEventListener('ended', function() {
+                currentVideoIndex++;
+                
+                if (currentVideoIndex < videoSequence.length) {
+                    // Passa al video successivo
+                    video.src = videoSequence[currentVideoIndex];
+                    video.load();
+                    video.play().catch(err => {
+                        console.log('Errore riproduzione video:', err);
+                        hideSplash();
+                    });
+                } else {
+                    // Tutti i video completati, nascondi splash
+                    hideSplash();
+                }
+            });
+
+            // Gestione errori
+            video.addEventListener('error', function() {
+                console.log('Errore caricamento video, nascondo splash');
+                hideSplash();
+            });
+
+            // Inizia la riproduzione
+            video.play().catch(err => {
+                console.log('Impossibile riprodurre video automaticamente:', err);
+                // Se autoplay fallisce, nascondi splash dopo 1 secondo
+                setTimeout(hideSplash, 1000);
+            });
+        }
+
+        function hideSplash() {
+            const splashScreen = document.getElementById('splash-screen');
+            if (splashScreen) {
+                // Fade out
+                splashScreen.classList.add('fade-out');
+                
+                // Rimuovi completamente dopo l'animazione
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 500);
+            }
+        }
+
         // Inizializza con la home
         window.addEventListener('load', function() {
+            // Inizia i video splash
+            initSplashVideos();
+            
+            // Inizializza l'app (nascosta sotto lo splash)
             showScreen('home', true);
         });
 
