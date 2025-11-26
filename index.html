@@ -384,6 +384,18 @@
             color: #B71C1C;
         }
 
+        .consuetudine-img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
         .testimonianza {
             background: #E3F2FD;
             padding: 20px;
@@ -1109,7 +1121,7 @@
                 </div>
 
                 <div class="sos-buttons">
-                    <a href="https://www.youpol.poliziadistato.it/" target="_blank" class="sos-btn">
+                    <a href="intent://details?id=it.poliziadistato.youpol#Intent;scheme=market;action=android.intent.action.VIEW;end" class="sos-btn" onclick="return openYouPol();">
                         <div class="icon">👮</div>
                         <div class="text">
                             <h3>App YouPol</h3>
@@ -1231,6 +1243,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Gli insulti online sono reato e fanno male come quelli dal vivo
                     </div>
+                    <img src="consuetudine_1.png" alt="Insulti online" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1238,6 +1251,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Serve sempre il permesso. È questione di rispetto e privacy
                     </div>
+                    <img src="consuetudine_2.png" alt="Privacy foto" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1245,6 +1259,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Umiliare qualcuno pubblicamente è cyberbullismo
                     </div>
+                    <img src="consuetudine_3.png" alt="Insulti chat gruppo" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1252,6 +1267,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Se fanno stare male l'altra persona, non sono scherzi
                     </div>
+                    <img src="consuetudine_4.png" alt="Prese in giro" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1259,6 +1275,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - La privacy è un diritto, anche nelle relazioni
                     </div>
+                    <img src="consuetudine_5.png" alt="Password privacy" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1266,6 +1283,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - L'esclusione sistematica è una forma di bullismo
                     </div>
+                    <img src="consuetudine_6.png" alt="Esclusione gruppo" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1273,6 +1291,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Le parole online hanno lo stesso peso di quelle dal vivo
                     </div>
+                    <img src="consuetudine_7.png" alt="Commenti online" class="consuetudine-img">
                 </div>
 
                 <div class="consuetudine">
@@ -1280,6 +1299,7 @@
                     <div class="risposta sbagliata">
                         ❌ FALSO - Il furto d'identità è reato anche se "per scherzo"
                     </div>
+                    <img src="consuetudine_8.png" alt="Profili fake" class="consuetudine-img">
                 </div>
 
                 <div class="info-card" style="margin-top: 20px;">
@@ -2368,6 +2388,19 @@
             
             // Scroll in alto
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funzione per aprire YouPol (app se installata, altrimenti Play Store)
+        function openYouPol() {
+            // Prova ad aprire l'app YouPol se installata
+            window.location.href = 'it.poliziadistato.youpol://';
+            
+            // Fallback: apri Play Store dopo 1 secondo se app non installata
+            setTimeout(function() {
+                window.location.href = 'https://play.google.com/store/apps/details?id=it.poliziadistato.youpol';
+            }, 1000);
+            
+            return false;
         }
     </script>
 </body>
